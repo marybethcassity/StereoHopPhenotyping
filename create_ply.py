@@ -1,3 +1,5 @@
+import numpy as np
+
 def create_ply(data, filename):
     data = data.reshape(-1,6)
     #vertices = np.hstack([vertices.reshape(-1,3),colors])

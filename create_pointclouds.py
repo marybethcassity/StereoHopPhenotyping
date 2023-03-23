@@ -1,3 +1,21 @@
+import cv2
+import open3d as o3d
+import numpy as np
+import os
+
+from config import *
+from create_ply import create_ply
+
+stereo = cv2.StereoSGBM_create(minDisparity= min_disp,
+    numDisparities = num_disp,
+    blockSize = 3,
+    uniquenessRatio = 5,
+    speckleWindowSize = 5,
+    speckleRange = 5,
+    disp12MaxDiff = 1,
+    P1 = 8*3*win_size**2,
+    P2 =32*3*win_size**2)  
+
 def create_pointclouds(left_im, right_im, num, out_path):
     
     disparity_map = stereo.compute(left_im, right_im)
@@ -31,20 +49,16 @@ def create_pointclouds(left_im, right_im, num, out_path):
     mask_map = disparity_map > disparity_map.min()
     point_cloud_z = point_cloud[:,:,2]
     point_cloud_x = point_cloud[:,:,0]
-        
-    #uncomment next line if want to mask by z distance
-    #mask = np.logical_and(mask_map,point_cloud_z<3)
-        
-    mask = np.logical_and(mask,mask_hue)
-        
-        
+    
+    mask = np.logical_and(mask_map,mask_hue)
+         
     output_points = point_cloud[mask]
     output_colors = rgb[mask]
 
     output = np.hstack([output_points, output_colors])
             
     output_file = os.path.join(out_path,num+".ply")
-    create_output(output, output_file)
+    create_ply(output, output_file)
         
     pcd = o3d.io.read_point_cloud(output_file)
     pcd_down = pcd.uniform_down_sample(every_k_points=5)

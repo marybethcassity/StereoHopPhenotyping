@@ -1,33 +1,32 @@
+#import matplotlib.pyplot as plt
+#import open3d as o3d
 import cv2
-import numpy as np
-import matplotlib.pyplot as plt
-import open3d as o3d
 import os
 
+from config import *
 from create_pointclouds import create_pointclouds
-from create_ply import create_ply
+ 
+inPath = in_path
+outPath = out_path
 
-stereo = cv2.StereoSGBM_create(minDisparity= min_disp,
-    numDisparities = num_disp,
-    blockSize = 3,
-    uniquenessRatio = 5,
-    speckleWindowSize = 5,
-    speckleRange = 5,
-    disp12MaxDiff = 1,
-    P1 = 8*3*win_size**2,
-    P2 =32*3*win_size**2)  
+def main(inPath, outPath):
 
-fx = 1054.7600
-fy = 1054.4700
-cx = 956.0000
-cy = 570.3380
-f = fx + fy / 2
-Tx = 0.1197760
+    count = 0
 
-win_size = 5
-min_disp = 25
-max_disp = 281
-num_disp = max_disp - min_disp 
-
-def main():
-
+    for image in os.listdir(inPath):
+        
+        side = image.split("0",1)[0]
+        label = image.split("0",1)[1]
+        num = "0" + label.split(".",1)[0] 
+        
+        if(side=="left"):
+            count = count + 1
+            if(count%20==0): #choose every 20th frame for good registration
+            
+                left_im = cv2.imread(os.path.join(inPath,image))
+                right_im = cv2.imread(os.path.join(inPath,"right"+"0"+label))
+                
+                create_pointclouds(left_im, right_im, num, outPath)
+            
+if __name__ == "__main__":
+    main(inPath, outPath)
