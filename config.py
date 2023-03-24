@@ -1,5 +1,8 @@
 in_path = r"C:/Users/Mary Beth Cassity/StereoHopPhenotyping/images/5N" 
-out_path = r"C:/Users/Mary Beth Cassity/StereoHopPhenotyping/pointclouds"
+pc_path = r"C:/Users/Mary Beth Cassity/StereoHopPhenotyping/pointclouds/5N"
+registeted_path = r"C:/Users/Mary Beth Cassity/StereoHopPhenotyping/registered_pc/5N.ply"
+
+voxel_size = 0.005
 
 win_size = 5
 min_disp = 25
