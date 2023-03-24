@@ -2,16 +2,18 @@
 #import open3d as o3d
 import cv2
 import os
+import open3d as o3d
 
 from config import *
 from create_pointclouds import create_pointclouds
 from register import register 
+from cluster import cluster
  
 inPath = in_path
 outPath = pc_path
-registered = registeted_path
+registered = registered_path
 
-def main(inPath, outPath):
+def main(inPath, outPath, registered_path):
 
     count = 0
 
@@ -30,7 +32,10 @@ def main(inPath, outPath):
                 
                 create_pointclouds(left_im, right_im, num, outPath)
                 
-    register(voxel_size, pc_path, registeted_path)
-    
+    register(voxel_size, pc_path, registered_path)
+    filtered = cluster(registered_path)
+
+    o3d.visualization.draw_geometries([filtered])
+
 if __name__ == "__main__":
-    main(inPath, outPath)
+    main(inPath, outPath, registered_path)
