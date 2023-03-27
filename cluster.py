@@ -62,8 +62,8 @@ def findeps(X):
     
     return x
 
-def cluster(registeted_path):
-    pcd = o3d.io.read_point_cloud(registeted_path)
+def cluster(registered_path):
+    pcd = o3d.io.read_point_cloud(registered_path)
     downpcd = pcd.voxel_down_sample(voxel_size=0.01)
     downpcd_np = np.asarray(downpcd.points)
     eps = findeps(downpcd_np)
