@@ -14,15 +14,6 @@ def dbscan(pointcloud,dist,neighbors):
         o3d.utility.VerbosityLevel.Debug) as cm:
         labels = np.array(
         pointcloud.cluster_dbscan(eps=dist, min_points=6, print_progress=True))
-    
-    #unique, counts = np.unique(labels, return_counts = True)
-    #sorted_counts = np.sort(counts, axis = 0)
-    #i = np.arange(len(sorted_counts))
-    #knee = kneed.KneeLocator(i, sorted_counts, curve='convex', direction='increasing', online = True)
-    #indeces = np.where(counts > sorted_counts[knee.knee])
-    #selected_labels = unique[indeces]
-    #selected_labels = np.array(selected_labels)  
-    #selected_labels = selected_labels[selected_labels != -1]
 
     max_label = labels.max()
     colors = plt.get_cmap("tab20")(labels / (max_label if max_label > 0 else 1))
@@ -51,5 +42,4 @@ def cluster(registeted_path):
     eps = findeps(downpcd_np)
     filtered = dbscan(downpcd, eps, 6)
 
-    
     return filtered
