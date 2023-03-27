@@ -20,7 +20,34 @@ def dbscan(pointcloud,dist,neighbors):
     colors[labels < 0] = 0
     pointcloud.colors = o3d.utility.Vector3dVector(colors[:, :3])
     
-    return pointcloud
+    """""
+    The following code is to select by largest cluster.
+    """
+
+    #unique_labels = np.unique(labels)
+    #unique_labels = unique_labels[unique_labels >= 0]
+    #largest_cluster_label = np.argmax(np.bincount(unique_labels))
+    #mask = labels == largest_cluster_label
+    #selected_points = pointcloud.select_by_index(np.where(mask)[0])
+
+    """""
+    The following code is to select clusters using elbow method.
+    """
+
+    unique, counts = np.unique(labels, return_counts = True)
+    sorted_counts = np.sort(counts, axis = 0)
+    i = np.arange(len(sorted_counts))
+    knee = kneed.KneeLocator(i, sorted_counts, curve='convex', direction='increasing', online = False)
+    indeces = np.where(counts > sorted_counts[knee.knee])
+    selected_labels = unique[indeces]
+    selected_labels = np.array(selected_labels)  
+    selected_labels = selected_labels[selected_labels != -1]
+    mask = np.isin(labels, selected_labels)
+    selected_points = pointcloud.select_by_index(np.where(mask)[0])
+
+    print(selected_labels)
+    
+    return selected_points
 
 def findeps(X):
     neigh = NearestNeighbors(n_neighbors=6)

@@ -42,9 +42,9 @@ def main(inPath, outPath, registered_path):
         register(voxel_size, pc_path, registered_path)
     
     clustered = cluster(registered_path)
-    skel = skeletonize(clustered)
+    #skel = skeletonize(clustered)
 
-    o3d.visualization.draw_geometries([skel])
+    o3d.visualization.draw_geometries([clustered])
 
 if __name__ == "__main__":
     main(inPath, outPath, registered_path)
