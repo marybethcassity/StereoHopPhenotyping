@@ -1,5 +1,5 @@
 # StereoHopPhenotyping
-Create point clouds using OpenCV SGBM and ICP registration from Open3D. Densely sample images for good registration. Currently masking images by hue. Working on semantic segmentation with PyTorch. Sample data given in images folder.
+Create point clouds using OpenCV SGBM and ICP registration from Open3D. Densely sample images for good registration. Currently masking images by hue. Working on semantic segmentation with transformers (see SegFormer.ipynb). Sample data for pointclouds + registration given in images folder. Sample data for training given in data folder.
 
 Jupyter Notebooks:
 In automatePointclouds.ipynb, update parameters in 3rd block.
