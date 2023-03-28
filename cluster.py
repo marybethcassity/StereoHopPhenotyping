@@ -44,8 +44,6 @@ def dbscan(pointcloud,dist,neighbors):
     selected_labels = selected_labels[selected_labels != -1]
     mask = np.isin(labels, selected_labels)
     selected_points = pointcloud.select_by_index(np.where(mask)[0])
-
-    print(selected_labels)
     
     return selected_points
 

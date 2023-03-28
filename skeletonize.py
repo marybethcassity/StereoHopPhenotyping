@@ -27,19 +27,19 @@ def dilate_erode(array):
 
 def skeletonize(point_cloud):
     downpcd_np = np.asarray(point_cloud.points)
-    #max_x =  int(np.amax(downpcd_np[:,0])*1000)
-    #max_y = int(np.amax(downpcd_np[:,1])*1000)
-    #max_z = int(np.amax(downpcd_np[:,2])*1000)
+    max_x =  int(np.amax(downpcd_np[:,0])*1000)
+    max_y = int(np.amax(downpcd_np[:,1])*1000)
+    max_z = int(np.amax(downpcd_np[:,2])*1000)
 
-    #mask = np.zeros([max_x,max_y,max_z])
-    #for pt in downpcd_np:
-    #    mask[int(pt[0]),int(pt[1]),int(pt[2])] = 1
+    mask = np.zeros([max_x,max_y,max_z])
+    for pt in downpcd_np:
+        mask[int(pt[0]),int(pt[1]),int(pt[2])] = 1
 
     #skeleton = dilate_erode(mask)
-    #skeleton = skmorph.skeletonize_3d(mask.astype(bool))
-    #skeleton = skeleton.astype(np.uint8) * 255
-    #skeleton = np.argwhere(skeleton)#/1000
-    #pcd = o3d.geometry.PointCloud()
-    #pcd.points = o3d.utility.Vector3dVector(mask)
+    skeleton = skmorph.skeletonize_3d(mask.astype(bool))
+    skeleton = skeleton.astype(np.uint8) * 255
+    skeleton = np.argwhere(skeleton)#/1000
+    pcd = o3d.geometry.PointCloud()
+    pcd.points = o3d.utility.Vector3dVector(mask)
 
     return downpcd_np
